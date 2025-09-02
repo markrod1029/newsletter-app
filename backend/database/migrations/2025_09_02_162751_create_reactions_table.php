@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('reactions', function (Blueprint $table) {
             $table->id();
+            $table->string('reactable_type'); // Post, Event, Thread, Comment
+            $table->unsignedBigInteger('reactable_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('type'); // like, love, clap, wow, etc.
             $table->timestamps();
+
+            $table->index(['reactable_type', 'reactable_id']);
+            $table->unique(['user_id', 'reactable_type', 'reactable_id']);
         });
     }
 
