@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('body');
+            $table->enum('type', ['news', 'article'])->default('news');
+            $table->enum('status', ['draft', 'pending', 'approved', 'rejected', 'archived'])->default('draft');
+            $table->timestamp('published_at')->nullable();
+            $table->string('cover_image_url')->nullable();
             $table->timestamps();
         });
     }
